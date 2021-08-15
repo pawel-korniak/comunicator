@@ -1,9 +1,12 @@
 package com.pawelkorniak.comunicator.service;
 
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.pawelkorniak.comunicator.model.ComunicatorUser;
 import com.pawelkorniak.comunicator.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProviderChain;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
@@ -30,9 +33,14 @@ public class UserService {
         DynamoDbClient ddb = DynamoDbClient.builder()
                 .region(region)
                 .build();
+//        BasicAWSCredentials awsCreds = new BasicAWSCredentials("access_key_id", "secret_key_id");
+//        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+//                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+//                .build();
         return DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(ddb)
                 .build();
+
     }
 
     private void createDynamoDBTable(DynamoDbEnhancedClient enhancedClient) {
